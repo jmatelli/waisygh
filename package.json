@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "front-watch": "webpack --progress --colors --watch"
+    "fw": "webpack --progress --colors --watch"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "angular-aria": "^1.4.8",
     "angular-material": "^1.0.1",
     "angular-material-icons": "^0.6.0",
+    "angular-messages": "^1.4.9",
     "angular-ui-router": "^0.2.15",
     "bcrypt": "^0.8.5",
     "bell": "^6.1.0",
