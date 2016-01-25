@@ -37,16 +37,6 @@ var goodOptions = {
     {
       reporter: goodConsole,    // Log everything to console
       events: {log: '*', response: '*'}
-    },
-    {
-      reporter: goodFile,       // Log 'debug' to debug_log.log
-      events: {log: 'debug'},
-      config: 'debug_log.log'
-    },
-    {
-      reporter: goodFile,       // Log 'error' to error_log.log
-      events: {log: 'error'},
-      config: 'error_log.log'
     }
   ]
 };
