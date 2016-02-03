@@ -1,21 +1,26 @@
 @require '../assets/stylus/variables.styl'
 
 .signup__separator
-  position relative
+  padding 40px 0 20px
+  span
+    position relative
 
-  &::before, &::after
-    content ''
-    height 2px
-    width 150px
-    position absolute
-    background lighten(primary-text-color, 70%)
-    top 50%
+    &::before, &::after
+      content ''
+      height 2px
+      width 150px
+      position absolute
+      background lighten(primary-text-color, 70%)
+      top 50%
 
-  &::before
-    transform translate(-110%, -50%)
+    &::before
+      transform translate(-110%, -50%)
 
-  &::after
-    transform translate(10%, -50%)
+    &::after
+      transform translate(10%, -50%)
+
+.signup__social
+  padding 20px 0 40px
 
 .waisygh__facebook
   background #3b5998!important
@@ -25,3 +30,8 @@
 
 .waisygh__google
   background #dd4b39!important
+
+.validation-messages
+  font-size 11px
+  color darkred
+  margin 10px 0 0 25px

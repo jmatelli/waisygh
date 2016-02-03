@@ -15,7 +15,7 @@ import conf from './conf/environment';
 import esInit from './es/init';
 
 // routes
-import user from './api/user';
+import api from './api';
 
 const server = new Hapi.Server({
   connections: {
@@ -32,7 +32,7 @@ server.connection({
   port: conf.port
 });
 
-var goodOptions = {
+const goodOptions = {
   reporters: [
     {
       reporter: goodConsole,    // Log everything to console
@@ -89,7 +89,7 @@ esInit()
           config: {id: 'statics'}
         });
 
-        server.route(user);
+        api(server);
 
         server.start((err) => {
           Hoek.assert(!err, err);
