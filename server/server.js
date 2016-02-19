@@ -6,8 +6,7 @@ import Inert from 'inert';
 import good from 'good';
 import goodConsole from 'good-console';
 import goodFile from 'good-file';
-import jwt from 'hapi-auth-jwt2';
-
+import Promise from 'bluebird';
 import path from 'path';
 
 import conf from './conf/environment';
@@ -15,8 +14,12 @@ import conf from './conf/environment';
 import esInit from './es/init';
 
 // routes
-import api from './api';
+import Api from './api';
 
+// static
+import Static from './utils/static';
+
+// initialize Hapi server
 const server = new Hapi.Server({
   connections: {
     routes: {
@@ -27,6 +30,11 @@ const server = new Hapi.Server({
   }
 });
 
+// Promisify server methods
+const register = Promise.promisify(server.register, {context: server});
+const start = Promise.promisify(server.start, {context: server});
+
+// initialize server connections
 server.connection({
   host: conf.host,
   port: conf.port
@@ -41,61 +49,35 @@ const goodOptions = {
   ]
 };
 
-function validate() {
-
-}
-
-esInit()
+Promise.all([
+  esInit(),
+  register(Api, {routes: {prefix: '/api'}}),
+  register([Inert, Static, {register: good, options: goodOptions}])
+])
   .then(() => {
-    server.register(
-      [
-        Inert,
-        // jwt,
-        {
-          register: good,
-          options: goodOptions
-        }
-      ], (err) => {
-        Hoek.assert(!err, err);
+    // handle API errors
+    server.ext('onPreResponse', (request, reply) => {
+      const response = request.response;
 
-        // server.auth.strategy('jwt', 'jwt', {
-        //   key: conf.jwt.secret,
-        //   validateFunc: validate,
-        //   verifyOptions: {algorithms: ['HS256']}
-        // });
-        //
-        // server.auth.default('jwt');
+      if (!response.isBoom)
+        return reply.continue();
 
-        server.ext('onPreResponse', function (request, reply) {
-          const response = request.response;
+      var res = {};
 
-          if (!response.isBoom || request.route.settings.id !== 'statics') {
-            return reply.continue();
-          }
+      res.code = !isNaN(response.status) ? +response.status : 500;
 
-          return reply.file('index.html');
-        });
+      if (response.message)
+        res.message = response.message || 'Internal server error';
 
-        server.route({
-          method: 'GET',
-          path: '/{param*}',
-          handler: {
-            directory: {
-              path: '.',
-              lookupCompressed: true,
-              redirectToSlash: false,
-            }
-          },
-          config: {id: 'statics'}
-        });
+      reply(res).code(res.code);
+    });
 
-        api(server);
-
-        server.start((err) => {
-          Hoek.assert(!err, err);
-          console.log('Server started at: ' + server.info.uri);
-        });
-      }
-    );
+    return start();
   })
+  .then(() => console.log('Server started at: ' + server.info.uri))
+  .catch(err => console.error(err.stack))
 ;
+
+process.on("unhandledRejection", function(reason, promise) {
+  throw reason;
+});

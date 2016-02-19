@@ -1,14 +1,8 @@
 dynamic: true
 properties:
-  username:
+  title:
     type: string
-  firstname:
+  summary:
     type: string
-  lastname:
+  authors:
     type: string
-  email:
-    type: string
-  password:
-    type: string
-  dob:
-    type: date

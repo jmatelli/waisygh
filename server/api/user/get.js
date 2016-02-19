@@ -4,12 +4,11 @@ import User from './user.object';
 
 export default {
   method: 'GET',
-  path: '/api/users/{id}',
+  path: '/users/{id}',
   handler: (req, res) => {
+    console.log('get story', req.params.id);
     return User.get(req.params.id)
-      .then(function(user) {
-        res(user).code(200);
-      })
+      .then(user => res(user).code(200))
     ;
   }
 };

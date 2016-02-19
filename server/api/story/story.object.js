@@ -10,19 +10,13 @@ var object = esObject.create({
   db: {
     client: client,
     index: conf.elastic.index,
-    type: 'user',
+    type: 'story',
   },
-  mapping: path.join(__dirname, 'user.mapping.yaml'),
+  mapping: path.join(__dirname, 'story.mapping.yaml'),
   import: {
-    username: {$id: true},
-    firstname: {$id: true},
-    lastname: {$id: true},
-    email: {$id: true},
-    dob: {$id: true},
-    password: (esval, rawval) => {
-      return bcrypt.hashSync(rawval, 10);
-    },
-    _id: {$rawAttr: 'username'},
+    title: {$id: true},
+    summary: {$id: true},
+    authors: {$id: true},
     _version: (esval, rawval) => {
       return rawval || 0;
     },

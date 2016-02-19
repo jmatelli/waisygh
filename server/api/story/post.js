@@ -1,17 +1,17 @@
 'use strict';
 
-import User from './user.object';
+import Story from './story.object';
 import Promise from 'bluebird';
 
 export default {
   method: 'POST',
-  path: '/users',
+  path: '/stories',
   handler: (req, res) => {
-    var user = new User();
-    return user
+    var story = new Story();
+    return story
       .import(req.payload)
       .call('save')
-      .then(user => res(user).code(200))
+      .then(story => res(story).code(200))
     ;
   }
 };
