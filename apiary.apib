@@ -6,41 +6,59 @@ Notes API is a *short texts saving* service similar to its physical paper presen
 # Group Users
 Users related resources of the **Users API**
 
-## Users Collection [/api/users]
+## Users [/api/users]
 ### List all Users [GET]
-+ Response 200 (application/json)
-
-        [{
-          "_id": 1, "_version": 1, "firstname": "John", "lastname": "Doe", "username": "johndoe", "email": "john@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
-        }, {
-          "_id": 2, "_version": 1, "firstname": "Jane", "lastname": "Doe", "username": "janedoe", "email": "jane@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
-        }]
-
-### Create a User [POST]
-+ Request (application/json)
-
-        { "firstname": "John", "lastname": "Smith", "username": "johnsmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
-
-+ Response 201 (application/json)
-
-        { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
-
-## User [/notes/{id}]
-A single User object with all its details
-
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a User [GET]
 + Response 200 (application/json)
 
     + Header
 
-            X-My-Header: The Value
+            Accept-Ranges: users
+            Content-Range: users 0-10/250
+    
+    + Body
+
+            [{
+              "_id": 1, "_version": 1, "firstname": "John", "lastname": "Doe", "username": "johndoe", "email": "john@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
+            }, {
+              "_id": 2, "_version": 1, "firstname": "Jane", "lastname": "Doe", "username": "janedoe", "email": "jane@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
+            }]
+
+### Create a User [POST]
++ Request (application/json)
+    
+    + Body
+
+            { "firstname": "John", "lastname": "Smith", "username": "johnsmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+
++ Response 201 (application/json)
 
     + Body
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+            { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+
+## User [/api/users/{id}]
++ Parameters
+    + id (required, number, `3`) ... Numeric `id` of the User to perform action with. Has example value.
+
+### Retrieve a User [GET]
++ Response 200 (application/json)
+
+    + Body
+
+            { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+
+### Edit a User [PATCH]
++ Request (application/json)
+
+    + Body
+    
+            { "lastname": "Smith", "username": "janesmith", "email": "jane@smith.com" }
+    
++ Response 200 (application/json)
+
+    + Body
+    
+            { "_id": 2, "_version": 2, "firstname": "Jane", "lastname": "Smith", "username": "janesmith", "email": "jane@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
 
 ### Remove a User [DELETE]
 + Response 204
