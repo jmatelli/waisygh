@@ -3,35 +3,35 @@ FORMAT: 1A
 # waisygh
 Notes API is a *short texts saving* service similar to its physical paper presence on your table.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Users
+Users related resources of the **Users API**
 
-## Notes Collection [/notes]
-### List all Notes [GET]
+## Users Collection [/api/users]
+### List all Users [GET]
 + Response 200 (application/json)
 
         [{
-          "id": 1, "title": "Jogging in park"
+          "_id": 1, "_version": 1, "firstname": "John", "lastname": "Doe", "username": "johndoe", "email": "john@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
         }, {
-          "id": 2, "title": "Pick-up posters from post-office"
+          "_id": 2, "_version": 1, "firstname": "Jane", "lastname": "Doe", "username": "janedoe", "email": "jane@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
         }]
 
-### Create a Note [POST]
+### Create a User [POST]
 + Request (application/json)
 
-        { "title": "Buy cheese and bread for breakfast." }
+        { "firstname": "John", "lastname": "Smith", "username": "johnsmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
 
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+        { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
 
-## Note [/notes/{id}]
-A single Note object with all its details
+## User [/notes/{id}]
+A single User object with all its details
 
 + Parameters
     + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
 
-### Retrieve a Note [GET]
+### Retrieve a User [GET]
 + Response 200 (application/json)
 
     + Header
@@ -42,5 +42,5 @@ A single Note object with all its details
 
             { "id": 2, "title": "Pick-up posters from post-office" }
 
-### Remove a Note [DELETE]
+### Remove a User [DELETE]
 + Response 204
