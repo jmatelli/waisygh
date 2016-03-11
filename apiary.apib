@@ -62,3 +62,61 @@ Users related resources of the **Users API**
 
 ### Remove a User [DELETE]
 + Response 204
+
+# Group Stories
+Stories related resources of the **Stories API**
+
+## Stories [/api/stories]
+### List all Stories [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            Accept-Ranges: stories
+            Content-Range: stories 0-10/250
+
+    + Body
+    
+            [
+                { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
+            ]
+
+### Create a Story [POST]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Athena goes to the Aquarium" }
+            
++ Response 201 (application/json)
+    
+    + Body
+    
+            { "_id": 2, "_version": 1, "title": "Athena goes to the Aquarium" }
+
+## Story [/api/stories/{id}]
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the User to perform action with. Has example value.
+
+### Retrieve a Story [GET]
++ Response 200 (application/json)
+
+    + Body
+        
+            { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
+            
+### Edit a Story [PATCH]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Zoe goes to the Zoo" }
+    
++ Response 200 (application/json)
+
+    + Body
+            
+            { "_id": 1, "_version": 2, "title": "Zoe goes to the Zoo" }
+
+### Remove a Story [DELETE]
++ Response 204
