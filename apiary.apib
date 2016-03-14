@@ -3,6 +3,49 @@ FORMAT: 1A
 # waisygh
 Notes API is a *short texts saving* service similar to its physical paper presence on your table.
 
+# Data Structures
+
+## User John (object)
++ _id: 1 (number, required)
++ _version: 1 (number, required)
++ username: johndoe (string, required)
++ firstname: John (string)
++ lastname: Doe (string)
++ email: john@doe.com (string, required)
++ password: 0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c (string, required)
++ dob: 561160800000 (number, required)
+
+## User Jane (object)
++ _id: 2 (number, required)
++ _version: 1 (number, required)
++ username: janedoe (string, required)
++ firstname: Jane (string)
++ lastname: Doe (string)
++ email: jane@doe.com (string, required)
++ password: 0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c (string, required)
++ dob: 561160800000 (number, required)
+
+## User Peter (object)
++ _id: 3 (number, required)
++ _version: 1 (number, required)
++ username: petersmith (string, required)
++ firstname: Peter (string)
++ lastname: Smith (string)
++ email: peter@smith.com (string, required)
++ password: 0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c (string, required)
++ dob: 561160800000 (number, required)
+
+## Story (object)
++ _id: 1 (number, required)
++ _version: 1 (number, required)
++ title: Zoe goes to the zoo (string, required)
++ summary: It's a story about zoe who goes to the zoo (string, required)
++ chapters (array[Story Chapter])
+
+## Story Chapter (object)
++ title: chapitre 1 (string, required)
++ url: /api/stories/1/chapters/1 (string, required)
+
 # Group Users
 Users related resources of the **Users API**
 
@@ -15,26 +58,18 @@ Users related resources of the **Users API**
             Accept-Ranges: users
             Content-Range: users 0-10/250
     
-    + Body
-
-            [{
-              "_id": 1, "_version": 1, "firstname": "John", "lastname": "Doe", "username": "johndoe", "email": "john@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
-            }, {
-              "_id": 2, "_version": 1, "firstname": "Jane", "lastname": "Doe", "username": "janedoe", "email": "jane@doe.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z"
-            }]
+    + Attributes (array[User John, User Jane])
 
 ### Create a User [POST]
 + Request (application/json)
     
     + Body
 
-            { "firstname": "John", "lastname": "Smith", "username": "johnsmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+            { "firstname": "Peter", "lastname": "Smith", "username": "petersmith", "email": "peter@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "561160800000" }
 
 + Response 201 (application/json)
 
-    + Body
-
-            { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+    + Attributes (User Peter)
 
 ## User [/api/users/{id}]
 + Parameters
@@ -43,9 +78,7 @@ Users related resources of the **Users API**
 ### Retrieve a User [GET]
 + Response 200 (application/json)
 
-    + Body
-
-            { "_id": 3, "_version": 1, "firstname": "John", "lastname": "Smith", "username": "johnmith", "email": "john@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "1987-10-13T22:00:00.000Z" }
+    + Attributes (User John)
 
 ### Edit a User [PATCH]
 + Request (application/json)
@@ -75,13 +108,61 @@ Stories related resources of the **Stories API**
             Accept-Ranges: stories
             Content-Range: stories 0-10/250
 
+    + Attributes (array[Story])
+
+### Create a Story [POST]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Athena goes to the Aquarium", "summary": "It's a story about Athena who goes to the aquarium" }
+            
++ Response 201 (application/json)
+    
+    + Attributes (Story)
+
+## Story [/api/stories/{id}]
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Story to perform action with. Has example value.
+
+### Retrieve a Story [GET]
++ Response 200 (application/json)
+
+    + Attributes (array[Story])
+            
+### Edit a Story [PATCH]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Zoe goes to the Zoo" }
+    
++ Response 200 (application/json)
+
+    + Attributes (array[Story])
+
+### Remove a Story [DELETE]
++ Response 204
+
+# Group Reviews
+Reviews related resources of the **Reviews API**
+
+## Reviews [/api/reviews]
+### List all Reviews [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            Accept-Ranges: challenges
+            Content-Range: challenges 0-10/250
+
     + Body
     
             [
                 { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
             ]
 
-### Create a Story [POST]
+### Create a Review [POST]
 + Request (application/json)
     
     + Body
@@ -94,18 +175,18 @@ Stories related resources of the **Stories API**
     
             { "_id": 2, "_version": 1, "title": "Athena goes to the Aquarium" }
 
-## Story [/api/stories/{id}]
+## Review [/api/reviews/{id}]
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the User to perform action with. Has example value.
+    + id (required, number, `1`) ... Numeric `id` of the Review to perform action with. Has example value.
 
-### Retrieve a Story [GET]
+### Retrieve a Review [GET]
 + Response 200 (application/json)
 
     + Body
         
             { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
             
-### Edit a Story [PATCH]
+### Edit a Review [PATCH]
 + Request (application/json)
     
     + Body
@@ -118,5 +199,63 @@ Stories related resources of the **Stories API**
             
             { "_id": 1, "_version": 2, "title": "Zoe goes to the Zoo" }
 
-### Remove a Story [DELETE]
+### Remove a Review [DELETE]
++ Response 204
+
+# Group Challenges
+Challenges related resources of the **Challenges API**
+
+## Challenges [/api/challenges]
+### List all Challenges [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            Accept-Ranges: challenges
+            Content-Range: challenges 0-10/250
+
+    + Body
+    
+            [
+                { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
+            ]
+
+### Create a Challenge [POST]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Athena goes to the Aquarium" }
+            
++ Response 201 (application/json)
+    
+    + Body
+    
+            { "_id": 2, "_version": 1, "title": "Athena goes to the Aquarium" }
+
+## Challenge [/api/challenges/{id}]
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Challenge to perform action with. Has example value.
+
+### Retrieve a Challenge [GET]
++ Response 200 (application/json)
+
+    + Body
+        
+            { "_id": 1, "_version": 1, "title": "Fanny goes to the Farm" }
+            
+### Edit a Challenge [PATCH]
++ Request (application/json)
+    
+    + Body
+            
+            { "title": "Zoe goes to the Zoo" }
+    
++ Response 200 (application/json)
+
+    + Body
+            
+            { "_id": 1, "_version": 2, "title": "Zoe goes to the Zoo" }
+
+### Remove a Challenge [DELETE]
 + Response 204
