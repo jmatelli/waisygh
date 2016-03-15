@@ -35,9 +35,18 @@ Notes API is a *short texts saving* service similar to its physical paper presen
 + password: 0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c (string, required)
 + dob: 561160800000 (number, required)
 
+## User Request (object)
++ username: petersmith (string, required)
++ firstname: Peter (string)
++ lastname: Smith (string)
++ email: peter@smith.com (string, required)
++ password: 0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c (string, required)
++ dob: 561160800000 (number, required)
+
 ## Story (object)
 + _id: 1 (number, required)
 + _version: 1 (number, required)
++ userId: 1 (number, required)
 + title: Zoe goes to the zoo (string, required)
 + summary: It's a story about zoe who goes to the zoo (string, required)
 + chapters (array[Story Chapter])
@@ -45,6 +54,11 @@ Notes API is a *short texts saving* service similar to its physical paper presen
 ## Story Chapter (object)
 + title: chapitre 1 (string, required)
 + url: /api/stories/1/chapters/1 (string, required)
+
+## Story Request (object)
++ userId: 1 (number, required)
++ title: Zoe goes to the zoo (string, required)
++ summary: It's a story about zoe who goes to the zoo (string, required)
 
 # Group Users
 Users related resources of the **Users API**
@@ -63,11 +77,13 @@ Users related resources of the **Users API**
 ### Create a User [POST]
 + Request (application/json)
     
-    + Body
-
-            { "firstname": "Peter", "lastname": "Smith", "username": "petersmith", "email": "peter@smith.com", "password": "0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c", "dob": "561160800000" }
+    + Attributes (User Request)
 
 + Response 201 (application/json)
+    
+    + Headers
+        
+            Location: /api/users/3
 
     + Attributes (User Peter)
 
@@ -113,9 +129,7 @@ Stories related resources of the **Stories API**
 ### Create a Story [POST]
 + Request (application/json)
     
-    + Body
-            
-            { "title": "Athena goes to the Aquarium", "summary": "It's a story about Athena who goes to the aquarium" }
+    + Attributes (Story Request)
             
 + Response 201 (application/json)
     
