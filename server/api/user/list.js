@@ -12,13 +12,13 @@ export default {
       from: +request.query.from || undefined,
       size: +request.query.size || undefined,
     })
-      .then(res => {
-        return Promise.props({
-          total: res.total,
-          elements: Promise.map(res, val => val.export()),
-        })
+      .then(users => {
+        reply(users.elements)
+          .code(200)
+          .header('Accept-Ranges', 'users')
+          .header('Content-Range', `users ${+request.query.from}-${+request.query.from + +request.query.size}/${users.total}`)
+        ;
       })
-      .then(users => reply(users).code(200))
     ;
   }
 };
